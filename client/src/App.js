@@ -8,6 +8,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 
 import Home from './pages/Home';
+import Instructions from './pages/Instructions';
 import Login from './pages/Login';
 import SignUp from './pages/Signup';
 
@@ -40,6 +41,7 @@ function App() {
           <div>
             <Switch>
               <Route exact path="/" component={Home} />
+              <Route exact path="/instructions" component={Instructions} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/signup" component={SignUp} />
             </Switch>

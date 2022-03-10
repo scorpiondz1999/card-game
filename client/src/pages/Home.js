@@ -1,78 +1,65 @@
 import React from "react";
+import {
+  Flex,
+  Container,
+  Heading,
+  Stack,
+  Text,
+  Button,
+  Image,
+  Center,
+  Box,
+  AspectRatio,
+} from "@chakra-ui/react";
 
-const Home = () => {
+import img from "../assets/img/home.jpg";
+
+const GameHome = () => {
   return (
-    <main className="homepage">
-      <section id="what-you-do" className="processs">
-        <div className="flex-row">
-          <h2 className="section-title secondary-border">
-            Welcome to Go Fish Game!
-          </h2>
-        </div>
-        <div className="process">
-          <h3>step 1</h3>
-          <div className="process-info">
-            <div className="process-text">
-              <h4>Sign up</h4>
-              <p>sign up on our state of the art sign up page!</p>
-            </div>
-          </div>
-        </div>
-        <div className="process">
-          <h3>step 2</h3>
-          <div className="process-info">
-            <div className="process-text">
-              <h4>Start Playing</h4>
-              <p>Go to playing Go Fish - Good enjoy!</p>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section>
-        <div className="process">
-          <h3>Go Fish Game Rules</h3>
-          <div className="process-info">
-            <div className="process-text">
-              <h4>Set Up</h4>
-              <p>
-                The players assemble in a circle and the dealer shuffles the
-                cards. The dealer then passes the cards out face down,
-                clockwise, and one at a time. If less than 4 people are playing,
-                each player receives 7 cards. If more than 4 people are playing,
-                each player receives 5 cards. The remaining deck is placed face
-                down in the middle of the circle to form the “ocean”.
-              </p>
-            </div>
-            <div className="process-text">
-              <h4>How to Play</h4>
-              <p>
-                The game begins when the player to the left of the dealer
-                “fishes” by asking another player if they have a certain card in
-                their hand (e.g. “Do you have any Queens?”). If the player does
-                have the type of card asked for, they must give the asker all of
-                that type they possess. The asker then continues questioning the
-                same or a different player if they have another or the same type
-                of card. If a player does not have the typed asked for, they say
-                “go fish” and the asker picks up the top card from the ocean.
-                The gameplay then moves to the left and the next person fishes
-                for cards.
-              </p>
-              <p>
-                A player makes a book when they have 4 of a kind. When a book is
-                made, the player places the 4 cards face up in a pile in front
-                of them to verify to the other players that they made a book.
-                The game ends when all 13 books are made. The player with the
-                most books wins. If a player runs out of cards during the game,
-                they may select one from the ocean when it is their turn. If
-                there are no more cards in the ocean, they are out of the game
-                and the number of books they have is final
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
+    <Container maxW={"5xl"}>
+      <Stack
+        textAlign={"center"}
+        align={"center"}
+        spacing={{ base: 8, md: 10 }}
+        py={{ base: 20, md: 28 }}
+      >
+        <Heading
+          fontWeight={600}
+          fontSize={{ base: "3xl", sm: "4xl", md: "6xl" }}
+          lineHeight={"110%"}
+        >
+          Welcome   let's play{" "}
+          <Text as={"span"} color={"orange.400"}>
+            GO FISH
+          </Text>
+        </Heading>
+        <Text color={"gray.500"} maxW={"3xl"}>
+        Go Fish or Fish is a card game usually played by two to five players, although it can be played with up to 10 players. It can be played in about 5 to 15 minutes.
+        </Text>
+        <Stack spacing={6} direction={"row"}>
+          <Button
+            rounded={"full"}
+            px={6}
+            colorScheme={"orange"}
+            bg={"orange.400"}
+            _hover={{ bg: "orange.500" }}
+          >
+            Start Game
+          </Button>
+          <Button rounded={"full"} px={6}>
+            <a href="/instructions">See Instructions</a>
+          </Button>
+        </Stack>
+        <Flex w={"full"}>
+          <Box>
+            <Center>
+              <Image boxSize="800px" objectFit="cover" src={img} />
+            </Center>
+          </Box>
+        </Flex>
+      </Stack>
+    </Container>
   );
 };
 
-export default Home;
+export default GameHome;
