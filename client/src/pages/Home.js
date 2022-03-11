@@ -53,7 +53,7 @@ const GameHome = () => {
         <Flex w={"full"}>
           <Box>
             <Center>
-              <Image boxSize="800px" objectFit="cover" src={img} />
+              <Image boxSize="1000px" height="600px" objectFit="cover" src={img} />
             </Center>
           </Box>
         </Flex>
