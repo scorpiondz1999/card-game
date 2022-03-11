@@ -12,7 +12,6 @@ import {
   Divider,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-
 import defaultCard from "../assets/default-card.png";
 
 const tabCardDefault = [
@@ -28,8 +27,26 @@ const tabCardDefault = [
 const Game = () => {
   const [stateGame, setStateGame] = useState("init");
   const [numberCards, setNumberCards] = useState(7);
+  const [remainingDeck, setRemainingDeck] = useState(0);
+  const [scorePlayer, setScorePlayer] = useState(0);
+  const [scoreComputer, setScoreComputer] = useState(0);
+  const [setsNumber, setSetsNumber] = useState(0);
+  const [fishingFor, setFishingFor] = useState(0);
+  const [fishingFrom, setFishingFrom] = useState(0);
+  const [huntedPlayer, setHuntedPlayer] = useState(0);
+  const [huntedComputer, setHuntedComputer] = useState(0);
   const [deckPlayer, setDeckPlayer] = useState([]);
   const [deckComputer, setDeckComputer] = useState([]);
+
+  const startGame = () => {
+    alert("game started");
+  };
+
+  const replayGame = () => {};
+
+  const stopGame = () => {};
+
+  const quitGame = () => {};
 
   return (
     <main>
@@ -99,7 +116,22 @@ const Game = () => {
                   alignItems="center"
                   justifyContent={"space-between"}
                   padding="5"
-                >                  
+                >
+                  <Text fontSize={{ md: "sm", lg: "sm", xl: "md" }}>
+                    Remainnig Deck : {remainingDeck}
+                  </Text>
+                  <Divider />
+                  <Text fontSize={{ md: "sm", lg: "sm", xl: "md" }}>
+                    Score Player : {scorePlayer}
+                  </Text>
+                  <Divider />
+                  <Text fontSize={{ md: "sm", lg: "sm", xl: "md" }}>
+                    Score Computer : {scoreComputer}
+                  </Text>
+                  <Divider />
+                  <Text fontSize={{ md: "sm", lg: "sm", xl: "md" }}>
+                    Sets : {setsNumber}
+                  </Text>
                 </GridItem>
                 <GridItem
                   colSpan={1}
@@ -109,7 +141,13 @@ const Game = () => {
                   alignItems="center"
                   justifyContent={"space-between"}
                   padding="5"
-                >                 
+                >
+                  <Text fontSize={{ md: "sm", lg: "sm", xl: "md" }}>
+                    Fishing For :
+                  </Text>
+                  <Text fontSize={{ md: "sm", lg: "sm", xl: "md" }}>
+                    {fishingFor}
+                  </Text>
                 </GridItem>
                 <GridItem
                   colSpan={1}
@@ -119,7 +157,13 @@ const Game = () => {
                   alignItems="center"
                   justifyContent={"space-between"}
                   padding="5"
-                >                  
+                >
+                  <Text fontSize={{ md: "sm", lg: "sm", xl: "md" }}>
+                    Fishing From :
+                  </Text>
+                  <Text fontSize={{ md: "sm", lg: "sm", xl: "md" }}>
+                    {fishingFrom}
+                  </Text>
                 </GridItem>
                 <GridItem
                   colSpan={2}
@@ -129,7 +173,14 @@ const Game = () => {
                   alignItems="center"
                   justifyContent={"space-between"}
                   padding="5"
-                >                 
+                >
+                  <Text fontSize="md" marginBottom={3}>
+                    Hunted {huntedPlayer} from Player
+                  </Text>
+                  <Divider />
+                  <Text fontSize="md" marginTop={3}>
+                    Hunted {huntedComputer} from Computer
+                  </Text>
                 </GridItem>
                 <GridItem
                   colSpan={1}
@@ -140,7 +191,17 @@ const Game = () => {
                   justifyContent={"space-between"}
                   alignSelf={"center"}
                   padding={5}
-                >                  
+                >
+                  <Stack direction="row" spacing={10} align="center">
+                    <Button
+                      colorScheme="orange"
+                      variant="solid"
+                      onClick={() => startGame()}
+                      style={{ cursor: "progress" }}
+                    >
+                      Take Turn
+                    </Button>
+                  </Stack>
                 </GridItem>
                 <GridItem
                   colSpan={3}
@@ -152,6 +213,41 @@ const Game = () => {
                   alignSelf={"center"}
                   padding={5}
                 >
+                  <Stack
+                    direction="row"
+                    spacing={{ md: 5, lg: 10, xl: 20 }}
+                    align="center"
+                  >
+                    <Button
+                      colorScheme="blue"
+                      variant="solid"
+                      onClick={() => startGame()}
+                      style={{ cursor: "progress" }}
+                    >
+                      Start
+                    </Button>
+                    <Button
+                      colorScheme="blue"
+                      variant="outline"
+                      onClick={() => replayGame()}
+                    >
+                      Replay
+                    </Button>
+                    <Button
+                      colorScheme="teal"
+                      variant="outline"
+                      onClick={() => stopGame()}
+                    >
+                      Stop
+                    </Button>
+                    <Button
+                      colorScheme="red"
+                      variant="solid"
+                      onClick={() => quitGame()}
+                    >
+                      Quit
+                    </Button>
+                  </Stack>
                 </GridItem>
               </Grid>
             </GridItem>
