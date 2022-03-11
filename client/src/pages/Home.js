@@ -28,9 +28,9 @@ const GameHome = () => {
           fontSize={{ base: "3xl", sm: "4xl", md: "6xl" }}
           lineHeight={"110%"}
         >
-          Welcome   let's play{" "}
+          Welcome to{" "}
           <Text as={"span"} color={"orange.400"}>
-            GO FISH
+            GO FISH GAME
           </Text>
         </Heading>
         <Text color={"gray.500"} maxW={"3xl"}>

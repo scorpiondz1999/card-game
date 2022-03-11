@@ -72,25 +72,32 @@ const Signup = () => {
           boxShadow={"lg"}
           p={8}
         >
-          <Stack spacing={4}>
-            <FormControl id="firstName" isRequired>
+          <Stack spacing={4} >
+            <FormControl id="firstName" isRequired  value={formState.password}
+                onChange={handleChange}>
               <FormLabel>Username</FormLabel>
-              <Input type="text" />
+              <Input type="text"  
+               />
             </FormControl>
-            <FormControl id="email" isRequired>
+            <FormControl id="email" isRequired  value={formState.password}
+                onChange={handleChange}>
               <FormLabel>Email address</FormLabel>
-              <Input type="email" />
+              <Input type="email"
+                />
             </FormControl>
-            <FormControl id="password" isRequired>
+            <FormControl id="password" isRequired  value={formState.password}
+                onChange={handleChange}>
               <FormLabel>Password</FormLabel>
               <InputGroup>
-                <Input type={showPassword ? "text" : "password"} />
+                <Input type={showPassword ? "text" : "password"}
+                 />
                 <InputRightElement h={"full"}>
                   <Button
                     variant={"ghost"}
                     onClick={() =>
                       setShowPassword((showPassword) => !showPassword)
                     }
+                    
                   >
                     {showPassword ? <ViewIcon /> : <ViewOffIcon />}
                   </Button>
