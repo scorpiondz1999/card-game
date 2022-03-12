@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useMutation } from "@apollo/client";
-import { ADD_USER } from "../utils/mutations";
+import { useMutation, gpl } from "@apollo/client";
+import { SIGNUP_MUTATION } from "../utils/mutations";
 import {
   Flex,
   Box,
@@ -26,7 +26,17 @@ const Signup = () => {
     password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
-  const [addUser, { error }] = useMutation(ADD_USER);
+
+  const [signup] = useMutation(SIGNUP_MUTATION, {
+    variables: {
+      username: formState.username,
+      email: formState.email,
+      password: formState.password,
+    },
+    onCompleted: ({ signup }) => {
+      Auth.login(signup.token);
+    },
+  });
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -35,19 +45,6 @@ const Signup = () => {
       ...formState,
       [name]: value,
     });
-  };
-
-  const handleFormSubmit = async (event) => {
-    try {
-      const { data } = await addUser({
-        variables: { ...formState },
-      });
-
-      Auth.login(data.addUser.token);
-    } catch (e) {
-      console.log(e);
-      console.error(e);
-    }
   };
 
   return (
@@ -124,7 +121,7 @@ const Signup = () => {
                 _hover={{
                   bg: "blue.500",
                 }}
-                onClick={() => handleFormSubmit()}
+                onClick={signup}
               >
                 Sign up
               </Button>

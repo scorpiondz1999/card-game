@@ -23,7 +23,7 @@ const Home = () => {
           <div className="process-info">
             <div className="process-text">
               <h4>Start Playing</h4>
-              <p>Go to playing Go Fish - Good enjoy!</p>
+              <p>Go to playing Go Fish - enjoy!</p>
             </div>
           </div>
         </div>

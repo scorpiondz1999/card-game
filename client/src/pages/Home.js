@@ -9,7 +9,6 @@ import {
   Image,
   Center,
   Box,
-  AspectRatio,
 } from "@chakra-ui/react";
 
 import img from "../assets/img/home.jpg";
@@ -24,7 +23,7 @@ const GameHome = () => {
         py={{ base: 20, md: 28 }}
       >
         <Heading
-          fontWeight={600}
+          fontWeight={500}
           fontSize={{ base: "3xl", sm: "4xl", md: "6xl" }}
           lineHeight={"110%"}
         >
@@ -44,7 +43,7 @@ const GameHome = () => {
             bg={"orange.400"}
             _hover={{ bg: "orange.500" }}
           >
-            Start Game
+            <a href="/game">Start Game</a>
           </Button>
           <Button rounded={"full"} px={6}>
             <a href="/instructions">See Instructions</a>
@@ -53,7 +52,7 @@ const GameHome = () => {
         <Flex w={"full"}>
           <Box>
             <Center>
-              <Image boxSize="1000px" height="600px" objectFit="cover" src={img} />
+              <Image boxSize="1000" height="600" objectFit="cover" src={img} />
             </Center>
           </Box>
         </Flex>

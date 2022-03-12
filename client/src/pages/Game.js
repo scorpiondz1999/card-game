@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import defaultCard from "../assets/default-card.png";
+import Auth from "../utils/auth";
 
 const tabCardDefault = [
   "dafaultCard",
@@ -38,6 +39,8 @@ const Game = () => {
   const [deckPlayer, setDeckPlayer] = useState([]);
   const [deckComputer, setDeckComputer] = useState([]);
 
+  const loggedIn = Auth.loggedIn();
+
   const startGame = () => {
     alert("game started");
   };
@@ -47,6 +50,10 @@ const Game = () => {
   const stopGame = () => {};
 
   const quitGame = () => {};
+
+  if (!loggedIn) {
+    return window.location.assign("/login");
+  }
 
   return (
     <main>
