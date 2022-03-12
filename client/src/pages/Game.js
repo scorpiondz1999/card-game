@@ -38,18 +38,32 @@ const Game = () => {
   const [huntedComputer, setHuntedComputer] = useState(0);
   const [deckPlayer, setDeckPlayer] = useState([]);
   const [deckComputer, setDeckComputer] = useState([]);
+  const [start, setStart] = useState(false);
+  const [stop, setStop] = useState(true);
+  const [replay, setReplay] = useState(false);
+  const [turn, setTurn] = useState(true); // Player Turn => turn = true; Computer Turn => turn = false
 
   const loggedIn = Auth.loggedIn();
 
   const startGame = () => {
-    alert("game started");
+    setStart(true);
+    setStop(false);
   };
 
-  const replayGame = () => {};
+  const replayGame = () => {
+    setStart(true);
+  };
 
-  const stopGame = () => {};
+  const stopGame = () => {
+    setStart(false);
+    setStop(true);
+  };
 
-  const quitGame = () => {};
+  const quitGame = () => {
+    setStart(false);
+    setStop(true);
+    window.location.assign("/");
+  };
 
   if (!loggedIn) {
     return window.location.assign("/login");
@@ -205,6 +219,7 @@ const Game = () => {
                       variant="solid"
                       onClick={() => startGame()}
                       style={{ cursor: "progress" }}
+                      disabled={start === false || stop === true ? true : false}
                     >
                       Take Turn
                     </Button>
@@ -230,6 +245,7 @@ const Game = () => {
                       variant="solid"
                       onClick={() => startGame()}
                       style={{ cursor: "progress" }}
+                      disabled={start === true ? true : false}
                     >
                       Start
                     </Button>
@@ -237,6 +253,7 @@ const Game = () => {
                       colorScheme="blue"
                       variant="outline"
                       onClick={() => replayGame()}
+                      disabled={start === false ? true : false}
                     >
                       Replay
                     </Button>
@@ -244,6 +261,7 @@ const Game = () => {
                       colorScheme="teal"
                       variant="outline"
                       onClick={() => stopGame()}
+                      disabled={start === false ? true : false}
                     >
                       Stop
                     </Button>
