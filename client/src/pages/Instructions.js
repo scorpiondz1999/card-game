@@ -2,8 +2,8 @@ import React from "react";
 
 const Home = () => {
   return (
-    <main className="homepage">
-      <section id="what-you-do" className="processs">
+    <main style={{textAlign: "center", backgroundColor: "green"}}>
+      <section>
         <div className="flex-row">
           <h2 className="section-title secondary-border">
             Welcome to Go Fish Game!

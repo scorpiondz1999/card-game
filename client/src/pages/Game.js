@@ -129,11 +129,11 @@ const Game = () => {
                   </Text>
                   <Divider />
                   <Text fontSize={{ md: "sm", lg: "sm", xl: "md" }}>
-                    Score Player : {scorePlayer}
+                    Player Score : {scorePlayer}
                   </Text>
                   <Divider />
                   <Text fontSize={{ md: "sm", lg: "sm", xl: "md" }}>
-                    Score Computer : {scoreComputer}
+                     Computer Score : {scoreComputer}
                   </Text>
                   <Divider />
                   <Text fontSize={{ md: "sm", lg: "sm", xl: "md" }}>
