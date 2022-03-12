@@ -8,14 +8,12 @@ import {
   FormLabel,
   Input,
   InputGroup,
-  HStack,
   InputRightElement,
   Stack,
   Button,
   Heading,
   Text,
   useColorModeValue,
-  Link,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
@@ -40,8 +38,6 @@ const Signup = () => {
   };
 
   const handleFormSubmit = async (event) => {
-    event.preventDefault();
-
     try {
       const { data } = await addUser({
         variables: { ...formState },
@@ -49,6 +45,7 @@ const Signup = () => {
 
       Auth.login(data.addUser.token);
     } catch (e) {
+      console.log(e);
       console.error(e);
     }
   };
@@ -72,32 +69,46 @@ const Signup = () => {
           boxShadow={"lg"}
           p={8}
         >
-          <Stack spacing={4} >
-            <FormControl id="firstName" isRequired  value={formState.password}
-                onChange={handleChange}>
+          <Stack spacing={4}>
+            <FormControl id="firstName" isRequired>
               <FormLabel>Username</FormLabel>
-              <Input type="text"  
-               />
+              <Input
+                type="text"
+                placeholder="Username"
+                name="username"
+                id="username"
+                value={formState.username}
+                onChange={handleChange}
+              />
             </FormControl>
-            <FormControl id="email" isRequired  value={formState.password}
-                onChange={handleChange}>
+            <FormControl id="email" isRequired>
               <FormLabel>Email address</FormLabel>
-              <Input type="email"
-                />
+              <Input
+                type="email"
+                placeholder="Email Address"
+                name="email"
+                id="email"
+                value={formState.email}
+                onChange={handleChange}
+              />
             </FormControl>
-            <FormControl id="password" isRequired  value={formState.password}
-                onChange={handleChange}>
+            <FormControl id="password" isRequired>
               <FormLabel>Password</FormLabel>
               <InputGroup>
-                <Input type={showPassword ? "text" : "password"}
-                 />
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="******"
+                  name="password"
+                  id="password"
+                  value={formState.password}
+                  onChange={handleChange}
+                />
                 <InputRightElement h={"full"}>
                   <Button
                     variant={"ghost"}
                     onClick={() =>
                       setShowPassword((showPassword) => !showPassword)
                     }
-                    
                   >
                     {showPassword ? <ViewIcon /> : <ViewOffIcon />}
                   </Button>
@@ -113,13 +124,17 @@ const Signup = () => {
                 _hover={{
                   bg: "blue.500",
                 }}
+                onClick={() => handleFormSubmit()}
               >
                 Sign up
               </Button>
             </Stack>
             <Stack pt={6}>
               <Text align={"center"}>
-                Already a user? <a href="/login" style={{color: "blue"}}>Login</a>
+                Already a user?{" "}
+                <a href="/login" style={{ color: "blue" }}>
+                  Login
+                </a>
               </Text>
             </Stack>
           </Stack>
