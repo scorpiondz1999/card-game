@@ -16,5 +16,18 @@ The game ends when all thirteen books have been won. The winner is the player wi
 
 ![2022-03-13 (2)](https://user-images.githubusercontent.com/84550325/158078126-4305bcb6-0bc3-4297-b5fb-e9394a2ea1f5.png)
 
+Technologies
+
+React source
+Chakra source
+Java Web tokens source
+GraphQl source
+MongoDb source
+express sourc
+node source
+
+License
+MIT License
+
 
 
