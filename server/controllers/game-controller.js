@@ -1,12 +1,9 @@
 // Import models
 const { Suits, Values, Cards } = require("../models");
-let deck = [],
-  player1 = [],
-  computer = [],
-  player1cards,
-  player2cards,
-  pairsPlayer,
-  pairsComp;
+let player1cards = [],
+  computercards = [],
+  pairsPlayer = [],
+  pairsComp = [];
 
 const listSuits = [
   { suit: "♠", type_card: "black" },
@@ -31,6 +28,7 @@ const listValues = [
 ];
 
 async function getDeck() {
+  let deck = [];
   for (let x = 0; x < listSuits.length; x++) {
     for (let y = 0; y < listValues.length; y++) {
       let card = { Suit: listSuits[x], Value: listValues[y] };
@@ -40,7 +38,7 @@ async function getDeck() {
   return deck;
 }
 
-async function shuffle() {
+async function shuffle(deck) {
   // switch the values of two random cards
   for (let i = 0; i < 1000; i++) {
     const location1 = Math.floor(Math.random() * deck.length);
@@ -52,46 +50,21 @@ async function shuffle() {
   }
 }
 
-async function cardAssign() {
+async function cardAssign(deck) {
+  player1cards = [];
+  computercards = [];
+
   //player cards
   for (let i = 0; i < 7; i++) {
-    player1.push(deck[i]);
+    player1cards.push(deck[i]);
     deck.shift();
   }
 
   //computer cards  (player 2 is computer)
   for (let i = 0; i < 7; i++) {
-    computer.push(deck[i]);
+    computercards.push(deck[i]);
     deck.shift();
   }
-
-  //creates arrays for both hands with just card value
-  const cardValPlayer = player1.map(function (item) {
-    return item.Value;
-  });
-  const cardValComputer = computer.map(function (item) {
-    return item.Value;
-  });
-  player1cards = cardValPlayer;
-  player2cards = cardValComputer;
-
-  console.log("checking for pairs");
-  pairsPlayer = player1cards.filter((e, i, a) => a.indexOf(e) !== i);
-  player1cards = player1cards.filter((item) => !pairsPlayer.includes(item));
-  player1 = player1.filter((i) => !pairsPlayer.includes(i.Value));
-
-  //remove computer pairs from hand
-  pairsComp = player2cards.filter((e, i, a) => a.indexOf(e) !== i);
-  player2cards = player2cards.filter((item) => !pairsComp.includes(item));
-  computer = computer.filter((i) => !pairsComp.includes(i.Value));
-
-  if (pairsPlayer > 0 || pairsComp > 0) {
-    console.log("pairs were removed");
-  }
-  console.log(player1);
-  console.log(player1cards);
-  console.log(computer);
-  console.log(player2cards);
 }
 
 module.exports = {
@@ -111,18 +84,18 @@ module.exports = {
     }
 
     // Get Deck
-    const deck = await getDeck();
+    let deck = await getDeck();
 
     // Shuffle
-    await shuffle();
+    await shuffle(deck);
 
     // Assign
-    await cardAssign();
+    await cardAssign(deck);
 
     // Save to DB
     let p1Cards = [],
       compCards = [];
-    player1.map((p1) => {
+    player1cards.map((p1) => {
       p1Cards.push({
         suit: p1.Suit.suit,
         type_card: p1.Suit.type_card,
@@ -131,7 +104,7 @@ module.exports = {
       });
     });
 
-    computer.map((p2) => {
+    computercards.map((p2) => {
       compCards.push({
         suit: p2.Suit.suit,
         type_card: p2.Suit.type_card,
@@ -139,9 +112,6 @@ module.exports = {
         type_player: "computer",
       });
     });
-
-    console.log(p1Cards);
-    console.log(compCards);
 
     Cards.create(p1Cards);
     Cards.create(compCards);
