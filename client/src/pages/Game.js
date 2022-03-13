@@ -106,7 +106,134 @@ const Game = () => {
     }
   };
 
-  function pickCard(selectedCard, myturn) {}
+  function pickCard(selectedCard, myturn) {
+    let match = false;
+    if (myturn) {
+      //checks the computer hand for a card to make a pair
+      for (let i = 0; i < computerCards.length; i++) {
+        if (selectedCard.value === computerCards[i].value) {
+          match = true;
+          let tab = [];
+          playerCards.map((e) => {
+            if (
+              e.suit !== selectedCard.suit ||
+              e.value !== selectedCard.value
+            ) {
+              tab.push(e);
+            }
+          });
+          playerCards = tab;
+          tab = [];
+          computerCards.map((e) => {
+            if (
+              e.suit !== selectedCard.suit ||
+              e.value !== selectedCard.value
+            ) {
+              tab.push(e);
+            }
+          });
+          computerCards = tab;
+          break;
+        }
+      }
+      isMatch(match, myturn);
+    } else {
+      let randomSelection =
+        computerCards[Math.floor(Math.random() * computerCards.length)];
+      setFishingFrom(randomSelection);
+      for (let i = 0; i < playerCards.length; i++) {
+        if (randomSelection.value === playerCards[i].value) {
+          match = true;
+
+          let tab = [];
+          computerCards.map((e) => {
+            if (
+              e.suit !== randomSelection.suit ||
+              e.value !== randomSelection.value
+            ) {
+              tab.push(e);
+            }
+          });
+          computerCards = tab;
+          tab = [];
+          playerCards.map((e) => {
+            if (
+              e.suit !== randomSelection.suit ||
+              e.value !== randomSelection.value
+            ) {
+              tab.push(e);
+            }
+          });
+          playerCards = tab;
+          break;
+        } else {
+          match = false;
+        }
+      }
+      isMatch(match);
+    }
+  }
+
+  const isMatch = (match, myturn) => {
+    if (!match) {
+      let newCard = deck.pop();
+      if (myturn) {
+        const tab = playerCards;
+        tab.push({
+          suit: newCard.Suit.suit,
+          type_card: newCard.Suit.type_card,
+          value: newCard.Value.value,
+          type_player: "player",
+        });
+        playerCards = tab;
+      } else {
+        const tab = computerCards;
+        tab.push({
+          suit: newCard.Suit.suit,
+          type_card: newCard.Suit.type_card,
+          value: newCard.Value.value,
+          type_player: "computer",
+        });
+        computerCards = tab;
+      }
+      setRemainingDeck(deck.length);
+    }
+    //redraw card hands
+    if (myturn) {
+      if (!checkWin(myturn)) {
+        setTurn(false);
+        setMessageGame("Computer's Turn");
+        pickCard(null, false);
+      }
+    } else {
+      if (!checkWin(myturn)) {
+        setTurn(true);
+        setMessageGame("Player's Turn");
+      }
+    }
+  };
+
+  //determines if the game is finished
+  function checkWin(myturn) {
+    console.log(playerCards.length);
+    console.log(computerCards.length);
+    if (playerCards.length === 0) {
+      setStateGame("playerwin");
+      alert("Congrats, you won!");
+      setScorePlayer(scorePlayer + 1);
+      startGame();
+      return true;
+    } else if (computerCards.length === 0) {
+      setStateGame("computerwin");
+      alert("Game over, Computer wins");
+      setScoreComputer(scoreComputer + 1);
+      startGame();
+      return true;
+    } else {
+      setTurn(!myturn);
+      return false;
+    }
+  }
 
   if (!loggedIn) {
     return window.location.assign("/login");
