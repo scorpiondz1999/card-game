@@ -40,7 +40,7 @@ async function getDeck() {
   return deck;
 }
 
-async function shuffle(deck) {
+async function shuffle() {
   // switch the values of two random cards
   for (let i = 0; i < 1000; i++) {
     const location1 = Math.floor(Math.random() * deck.length);
@@ -52,7 +52,7 @@ async function shuffle(deck) {
   }
 }
 
-async function cardAssign(deck) {
+async function cardAssign() {
   //player cards
   for (let i = 0; i < 7; i++) {
     player1.push(deck[i]);
@@ -114,10 +114,10 @@ module.exports = {
     const deck = await getDeck();
 
     // Shuffle
-    await shuffle(deck);
+    await shuffle();
 
     // Assign
-    cardAssign(deck);
+    await cardAssign();
 
     // Save to DB
     let p1Cards = [],
@@ -127,7 +127,7 @@ module.exports = {
         suit: p1.Suit.suit,
         type_card: p1.Suit.type_card,
         value: p1.Value.value,
-        type_player: "player1",
+        type_player: "player",
       });
     });
 
@@ -147,7 +147,7 @@ module.exports = {
     Cards.create(compCards);
 
     // Response
-    res.json({ player: p1Cards, computer: compCards });
+    res.json({ player: p1Cards, computer: compCards, deck: deck });
   },
   async getCards({ body }, res) {},
 };
