@@ -23,3 +23,16 @@ export const SIGNUP_MUTATION = gql`
     }
   }
 `;
+
+export const STARTGAME_MUTATION = gql`
+  mutation startgame($username: String!) {
+    startgame(username: $username) {
+      token
+      user {
+        _id
+        username
+      }
+    }
+  }
+`;
+

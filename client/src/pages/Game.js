@@ -14,6 +14,8 @@ import {
 import React, { useState } from "react";
 import defaultCard from "../assets/default-card.png";
 import Auth from "../utils/auth";
+import { startNewGame } from "../utils/API";
+import { STARTGAME_MUTATION } from "../utils/mutations";
 
 const tabCardDefault = [
   "dafaultCard",
@@ -27,7 +29,8 @@ const tabCardDefault = [
 
 const Game = () => {
   const [stateGame, setStateGame] = useState("init");
-  const [numberCards, setNumberCards] = useState(7);
+  const [numberCardsPlayer, setNumberCardsPlayer] = useState(7);
+  const [numberCardsComputer, setNumberCardsComputer] = useState(7);
   const [remainingDeck, setRemainingDeck] = useState(0);
   const [scorePlayer, setScorePlayer] = useState(0);
   const [scoreComputer, setScoreComputer] = useState(0);
@@ -45,9 +48,16 @@ const Game = () => {
 
   const loggedIn = Auth.loggedIn();
 
+  const token = Auth.getToken();
+
+  const takeTurn = () => {
+    setTurn(true);
+  };
+
   const startGame = () => {
     setStart(true);
     setStop(false);
+    startNewGame(token);
   };
 
   const replayGame = () => {
@@ -80,7 +90,7 @@ const Game = () => {
             borderLeftRadius="xl"
             templateRows="repeat(3, 1fr)"
             templateColumns="repeat(1, 1fr)"
-            gap={numberCards + 1}
+            gap={8}
           >
             <GridItem
               padding="4"
@@ -88,9 +98,9 @@ const Game = () => {
               borderRightRadius="md"
               borderLeftRadius="md"
               width={{
-                md: 90 * numberCards,
-                lg: 120 * numberCards,
-                xl: 150 * numberCards,
+                md: 90 * numberCardsPlayer,
+                lg: 120 * numberCardsPlayer,
+                xl: 150 * numberCardsPlayer,
               }}
             >
               <Center>
@@ -217,7 +227,7 @@ const Game = () => {
                     <Button
                       colorScheme="orange"
                       variant="solid"
-                      onClick={() => startGame()}
+                      onClick={() => takeTurn()}
                       style={{ cursor: "progress" }}
                       disabled={start === false || stop === true ? true : false}
                     >
@@ -282,9 +292,9 @@ const Game = () => {
               borderRightRadius="md"
               borderLeftRadius="md"
               width={{
-                md: 90 * numberCards,
-                lg: 120 * numberCards,
-                xl: 150 * numberCards,
+                md: 90 * numberCardsComputer,
+                lg: 120 * numberCardsComputer,
+                xl: 150 * numberCardsComputer,
               }}
             >
               <Center>
