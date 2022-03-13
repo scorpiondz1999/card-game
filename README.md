@@ -14,4 +14,7 @@ If the player goes fishing without "making a catch" (does not receive a card he 
 The game ends when all thirteen books have been won. The winner is the player with the most books. During the game, if a player is left without cards, they may (when it's their turn to play), draw from the stock and then ask for cards of that rank. If there are no cards left in the stock, they are out of the game.
 
 
+![2022-03-13 (2)](https://user-images.githubusercontent.com/84550325/158078126-4305bcb6-0bc3-4297-b5fb-e9394a2ea1f5.png)
+
+
 
