@@ -19,12 +19,15 @@ export const loginUser = (userData) => {
   });
 };
 
-export const startNewGame = (token) => {
-  return fetch("http://localhost:3001/api/game/startgame", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      authorization: `Bearer ${token}`,
-    },
-  });
+export const startNewGame = async (token) => {
+  return await fetch("http://localhost:3001/api/game/startgame")
+    .then((response) => {
+      if (response.status >= 400) {
+        throw new Error("Bad response from server");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      return data;
+    });
 };
