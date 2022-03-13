@@ -19,11 +19,17 @@ The game ends when all thirteen books have been won. The winner is the player wi
 Technologies
 
 React source
+
 Chakra source
+
 Java Web tokens source
+
 GraphQl source
+
 MongoDb source
-express sourc
+
+express source
+
 node source
 
 License
