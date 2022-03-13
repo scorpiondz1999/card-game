@@ -33,11 +33,27 @@ const resolvers = {
       return { token, user };
     },
     signup: async (parent, args) => {
-        console.log("args: " + args);
+      console.log("args: " + args);
       const user = await User.create(args);
       const token = signToken(user);
       console.log(token);
       return { token, user };
+    },
+    saveCards: async (parent, args, context) => {
+      if (context.user) {
+        try {
+        } catch (err) {
+          console.log(err);
+          //return res.status(400).json(err);
+        }
+      }
+
+      throw new AuthenticationError("You need to be logged in!");
+    },
+    removeCards: async (parent, args, context) => {
+      if (context.user) {
+      }
+      throw new AuthenticationError("need to be logged in!");
     },
   },
 };
