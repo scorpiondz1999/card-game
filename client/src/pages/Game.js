@@ -10,9 +10,12 @@ import {
   GridItem,
   Button,
   Divider,
+  Tag,
+  TagLabel,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import defaultCard from "../assets/default-card.png";
+import gameCard from "../assets/white-card.png";
 import Auth from "../utils/auth";
 import { startNewGame } from "../utils/API";
 import { STARTGAME_MUTATION } from "../utils/mutations";
@@ -27,6 +30,10 @@ const tabCardDefault = [
   "dafaultCard",
 ];
 
+let playerCards = [],
+  computerCards = [],
+  deck = [];
+
 const Game = () => {
   const [stateGame, setStateGame] = useState("init");
   const [numberCardsPlayer, setNumberCardsPlayer] = useState(7);
@@ -39,12 +46,10 @@ const Game = () => {
   const [fishingFrom, setFishingFrom] = useState(0);
   const [huntedPlayer, setHuntedPlayer] = useState(0);
   const [huntedComputer, setHuntedComputer] = useState(0);
-  const [deckPlayer, setDeckPlayer] = useState([]);
-  const [deckComputer, setDeckComputer] = useState([]);
   const [start, setStart] = useState(false);
   const [stop, setStop] = useState(true);
-  const [replay, setReplay] = useState(false);
   const [turn, setTurn] = useState(true); // Player Turn => turn = true; Computer Turn => turn = false
+  const [messageGame, setMessageGame] = useState("");
 
   const loggedIn = Auth.loggedIn();
 
@@ -52,12 +57,19 @@ const Game = () => {
 
   const takeTurn = () => {
     setTurn(true);
+    setMessageGame("Player's Turn");
   };
 
-  const startGame = () => {
+  const startGame = async () => {
     setStart(true);
     setStop(false);
-    startNewGame(token);
+    const result = await startNewGame(token);
+    playerCards = result.player;
+    computerCards = result.computer;
+    deck = result.deck;
+    setRemainingDeck(result.deck.length);
+    setStateGame("play");
+    gameBegin();
   };
 
   const replayGame = () => {
@@ -75,6 +87,9 @@ const Game = () => {
     window.location.assign("/");
   };
 
+  const gameBegin = () => {
+  }
+
   if (!loggedIn) {
     return window.location.assign("/login");
   }
@@ -90,7 +105,6 @@ const Game = () => {
             borderLeftRadius="xl"
             templateRows="repeat(3, 1fr)"
             templateColumns="repeat(1, 1fr)"
-            gap={8}
           >
             <GridItem
               padding="4"
@@ -116,12 +130,62 @@ const Game = () => {
                         ></Image>
                       );
                     })
-                  : deckPlayer.map((t) => {
+                  : playerCards.map((t) => {
                       return (
-                        <Image
-                          boxSize={{ md: 110, lg: 100, xl: 150 }}
-                          src={t}
-                        ></Image>
+                        <div>
+                          <Tag
+                            size="sm"
+                            key="sm"
+                            variant="outline"
+                            colorScheme={t.type_card === "red" ? "red" : "blue"}
+                            style={{
+                              position: "relative",
+                              top: 28,
+                              left: 5,
+                            }}
+                          >
+                            <TagLabel style={{ marginTop: 5 }}>
+                              {t.suit}
+                            </TagLabel>
+                          </Tag>
+                          <div
+                            style={{ textAlign: "center" }}
+                            onClick={() => {
+                              if (turn) {
+                                const card = {
+                                  suit: t.suit,
+                                  type_card: t.type_card,
+                                  type_player: "player",
+                                  value: t.value,
+                                };
+                                setFishingFor(card);
+                                pickCard(card, turn);
+                              }
+                            }}
+                          >
+                            <Image
+                              boxSize={{ md: 110, lg: 120, xl: 150 }}
+                              src={gameCard}
+                            ></Image>
+                            <Tag
+                              size="xl"
+                              key="xl"
+                              variant="outline"
+                              colorScheme={
+                                t.type_card === "red" ? "red" : "blue"
+                              }
+                              style={{
+                                position: "relative",
+                                top: -85,
+                                padding: 15,
+                              }}
+                            >
+                              <TagLabel style={{ marginTop: 5 }}>
+                                {t.value}
+                              </TagLabel>
+                            </Tag>
+                          </div>
+                        </div>
                       );
                     })}
               </Box>
@@ -157,7 +221,7 @@ const Game = () => {
                   </Text>
                   <Divider />
                   <Text fontSize={{ md: "sm", lg: "sm", xl: "md" }}>
-                     Computer Score : {scoreComputer}
+                    Computer Score : {scoreComputer}
                   </Text>
                   <Divider />
                   <Text fontSize={{ md: "sm", lg: "sm", xl: "md" }}>
@@ -177,7 +241,7 @@ const Game = () => {
                     Fishing For :
                   </Text>
                   <Text fontSize={{ md: "sm", lg: "sm", xl: "md" }}>
-                    {fishingFor}
+                    {fishingFor.value} {fishingFor.suit}
                   </Text>
                 </GridItem>
                 <GridItem
@@ -193,7 +257,7 @@ const Game = () => {
                     Fishing From :
                   </Text>
                   <Text fontSize={{ md: "sm", lg: "sm", xl: "md" }}>
-                    {fishingFrom}
+                    {fishingFrom.value} {fishingFrom.suit}
                   </Text>
                 </GridItem>
                 <GridItem
@@ -205,7 +269,13 @@ const Game = () => {
                   justifyContent={"space-between"}
                   padding="5"
                 >
-                  <Text fontSize="md" marginBottom={3}>
+                  <Text fontSize="md" marginBottom={2} color="blueviolet">
+                    {stateGame === "init"
+                      ? "Clic on Start to Begin a new game"
+                      : messageGame}
+                  </Text>
+                  <Divider />
+                  <Text fontSize="md" marginBottom={2} marginTop={3}>
                     Hunted {huntedPlayer} from Player
                   </Text>
                   <Divider />
@@ -310,12 +380,48 @@ const Game = () => {
                         ></Image>
                       );
                     })
-                  : deckComputer.map((t) => {
+                  : computerCards.map((t) => {
                       return (
-                        <Image
-                          boxSize={{ md: 110, lg: 120, xl: 150 }}
-                          src={t}
-                        ></Image>
+                        <div>
+                          <Tag
+                            size="sm"
+                            key="sm"
+                            variant="outline"
+                            colorScheme={t.type_card === "red" ? "red" : "blue"}
+                            style={{
+                              position: "relative",
+                              top: 28,
+                              left: 5,
+                            }}
+                          >
+                            <TagLabel style={{ marginTop: 5 }}>
+                              {t.suit}
+                            </TagLabel>
+                          </Tag>
+                          <div style={{ textAlign: "center" }}>
+                            <Image
+                              boxSize={{ md: 110, lg: 120, xl: 150 }}
+                              src={gameCard}
+                            ></Image>
+                            <Tag
+                              size="xl"
+                              key="xl"
+                              variant="outline"
+                              colorScheme={
+                                t.type_card === "red" ? "red" : "blue"
+                              }
+                              style={{
+                                position: "relative",
+                                top: -80,
+                                padding: 15,
+                              }}
+                            >
+                              <TagLabel style={{ marginTop: 5 }}>
+                                {t.value}
+                              </TagLabel>
+                            </Tag>
+                          </div>
+                        </div>
                       );
                     })}
               </Box>
