@@ -88,7 +88,25 @@ const Game = () => {
   };
 
   const gameBegin = () => {
-  }
+    //player with more cards left goes first
+    let bool = false;
+    if (playerCards.length >= computerCards.length) {
+      bool = true;
+      setTurn(true);
+    } else {
+      setTurn(false);
+    }
+    if (bool) {
+      console.log("Player go!");
+      setMessageGame("Player GO!");
+    } else {
+      console.log("Computer go!");
+      setMessageGame("Computer Go!");
+      pickCard(null, bool);
+    }
+  };
+
+  function pickCard(selectedCard, myturn) {}
 
   if (!loggedIn) {
     return window.location.assign("/login");
