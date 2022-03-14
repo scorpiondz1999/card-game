@@ -16,6 +16,9 @@ The game ends when all thirteen books have been won. The winner is the player wi
 
 ![2022-03-13 (2)](https://user-images.githubusercontent.com/84550325/158078126-4305bcb6-0bc3-4297-b5fb-e9394a2ea1f5.png)
 
+![2022-03-13 (3)](https://user-images.githubusercontent.com/84550325/158090487-a271dd33-9e6d-410f-aea5-7b770f34d155.png)
+
+
 Technologies
 
 React 
