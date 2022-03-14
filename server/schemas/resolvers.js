@@ -1,17 +1,16 @@
 const { AuthenticationError } = require("apollo-server-express");
-const { User } = require("../models");
+const { User, Cards } = require("../models");
 const { signToken } = require("../utils/auth");
+const { startGame } = require("../controllers/game-controller");
 
 const resolvers = {
   Query: {
-    me: async (context) => {
-      if (context.user) {
-        const userData = await User.findOne({ _id: context.user._id });
-
-        return userData;
-      }
-
-      throw new AuthenticationError("Not logged in");
+    player: async () => {
+      const data = await startGame();
+      console.log(data);
+      return {
+        player: data,
+      };
     },
   },
   Mutation: {

@@ -1,6 +1,5 @@
 import {
   Box,
-  Container,
   Text,
   Center,
   Flex,
@@ -17,8 +16,9 @@ import React, { useState, useEffect, useRef } from "react";
 import defaultCard from "../assets/default-card.png";
 import gameCard from "../assets/white-card.png";
 import Auth from "../utils/auth";
-import { startNewGame } from "../utils/API";
-import { STARTGAME_MUTATION } from "../utils/mutations";
+import { startNewGame } from "../components/Game";
+import { useQuery } from "@apollo/client";
+import { GET_CARDS } from "../utils/queries";
 
 const tabCardDefault = [
   "dafaultCard",
@@ -52,6 +52,8 @@ const Game = () => {
   const [height, setHeight] = useState(0);
   const ref = useRef(null);
 
+  //const { loading, error, data } = useQuery(GET_CARDS);
+
   useEffect(() => {
     setHeight(ref.current.clientHeight);
   });
@@ -65,18 +67,19 @@ const Game = () => {
     setMessageGame("Player's Turn");
   };
 
-  const startGame = async () => {
+  async function StartGame() {
     setStart(true);
     setStop(false);
-    const result = await startNewGame(token);
-    playerCards = result.player;
-    computerCards = result.computer;
-    deck = result.deck;
-    setRemainingDeck(result.deck.length);
+    const data = await startNewGame();
+    console.log(data);
+    playerCards = data.p1Cards;
+    computerCards = data.compCards;
+    deck = data.deck;
+    setRemainingDeck(data.deck.length);
     setStateGame("play");
     getTime(Date.now());
     gameBegin();
-  };
+  }
 
   const replayGame = () => {
     setStateGame("play");
@@ -86,7 +89,7 @@ const Game = () => {
     setFishingFor("");
     setFishingFrom("");
     setMessageGame("Game replayed !");
-    startGame();
+    StartGame();
   };
 
   const stopGame = () => {
@@ -205,18 +208,18 @@ const Game = () => {
       if (myturn) {
         const tab = playerCards;
         tab.push({
-          suit: newCard.Suit.suit,
-          type_card: newCard.Suit.type_card,
-          value: newCard.Value.value,
+          suit: newCard.suit,
+          type_card: newCard.type_card,
+          value: newCard.value,
           type_player: "player",
         });
         playerCards = tab;
       } else {
         const tab = computerCards;
         tab.push({
-          suit: newCard.Suit.suit,
-          type_card: newCard.Suit.type_card,
-          value: newCard.Value.value,
+          suit: newCard.suit,
+          type_card: newCard.type_card,
+          value: newCard.value,
           type_player: "computer",
         });
         computerCards = tab;
@@ -306,9 +309,9 @@ const Game = () => {
     }
   }
 
-  /*if (!loggedIn) {
+  if (!loggedIn) {
     return window.location.assign("/login");
-  }*/
+  }
 
   return (
     <main>
@@ -531,7 +534,7 @@ const Game = () => {
                   <Button
                     colorScheme="blue"
                     variant="solid"
-                    onClick={() => startGame()}
+                    onClick={() => StartGame()}
                     style={{ cursor: "progress" }}
                     disabled={start === true ? true : false}
                   >

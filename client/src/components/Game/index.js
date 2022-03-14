@@ -1,5 +1,4 @@
 // Import models
-const { Suits, Values, Cards } = require("../models");
 let player1cards = [],
   computercards = [];
 
@@ -65,57 +64,39 @@ async function cardAssign(deck) {
   }
 }
 
-module.exports = {
-  async startGame() {
-    console.log("start game");
-    // Re-initialize the cards
-    const cards = await Cards.deleteMany({});
+export async function startNewGame() {
+  console.log("start game");
 
-    // Find Suits and Values
-    const isemptysuits = await Suits.countDocuments({});
-    const isemptyvalues = await Values.countDocuments({});
+  // Get Deck
+  let deck = await getDeck();
 
-    if (isemptysuits === 0 || isemptyvalues === 0) {
-      console.log("empty");
-      Suits.create(listSuits);
-      Values.create(listValues);
-    }
+  // Shuffle
+  await shuffle(deck);
 
-    // Get Deck
-    let deck = await getDeck();
+  // Assign
+  await cardAssign(deck);
 
-    // Shuffle
-    await shuffle(deck);
-
-    // Assign
-    await cardAssign(deck);
-
-    // Save to DB
-    let p1Cards = [],
-      compCards = [];
-    player1cards.map((p1) => {
-      p1Cards.push({
-        suit: p1.suit,
-        type_card: p1.type_card,
-        value: p1.value,
-        type_player: "player",
-      });
+  // Save to DB
+  let p1Cards = [],
+    compCards = [];
+  player1cards.map((p1) => {
+    p1Cards.push({
+      suit: p1.suit,
+      type_card: p1.type_card,
+      value: p1.value,
+      type_player: "player",
     });
+  });
 
-    computercards.map((p2) => {
-      compCards.push({
-        suit: p2.suit,
-        type_card: p2.type_card,
-        value: p2.value,
-        type_player: "computer",
-      });
+  computercards.map((p2) => {
+    compCards.push({
+      suit: p2.suit,
+      type_card: p2.type_card,
+      value: p2.value,
+      type_player: "computer",
     });
+  });
 
-    Cards.create(p1Cards);
-    Cards.create(compCards);
-
-    // Response
-    return { p1Cards, compCards, deck };
-  },
-  async getCards({ body }, res) {},
-};
+  // Response
+  return { p1Cards, compCards, deck };
+}
