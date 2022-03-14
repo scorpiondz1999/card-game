@@ -13,6 +13,15 @@ var cors = require("cors");
 app.use(cors());
 
 const startServer = async () => {
+  // Error handler
+  const errorHandler = (err, req, res, next) => {
+    if (res.headersSent) {
+      return next(err);
+    }
+    const { status } = err;
+    res.status(status).json(err);
+  };
+  app.use(errorHandler);
   const server = new ApolloServer({
     typeDefs,
     resolvers,
