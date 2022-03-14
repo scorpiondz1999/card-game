@@ -591,42 +591,10 @@ const Game = () => {
                   })
                 : computerCards.map((t) => {
                     return (
-                      <div>
-                        <Tag
-                          size="sm"
-                          key="sm"
-                          variant="outline"
-                          colorScheme={t.type_card === "red" ? "red" : "blue"}
-                          style={{
-                            position: "relative",
-                            top: 28,
-                            left: 5,
-                          }}
-                        >
-                          <TagLabel style={{ marginTop: 5 }}>{t.suit}</TagLabel>
-                        </Tag>
-                        <div style={{ textAlign: "center" }}>
-                          <Image
-                            boxSize={{ md: 110, lg: 120, xl: 150 }}
-                            src={gameCard}
-                          ></Image>
-                          <Tag
-                            size="xl"
-                            key="xl"
-                            variant="outline"
-                            colorScheme={t.type_card === "red" ? "red" : "blue"}
-                            style={{
-                              position: "relative",
-                              top: -80,
-                              padding: 15,
-                            }}
-                          >
-                            <TagLabel style={{ marginTop: 5 }}>
-                              {t.value}
-                            </TagLabel>
-                          </Tag>
-                        </div>
-                      </div>
+                      <Image
+                        boxSize={{ md: 110, lg: 120, xl: 150 }}
+                        src={defaultCard}
+                      ></Image>
                     );
                   })}
             </Box>
