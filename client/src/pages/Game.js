@@ -308,9 +308,9 @@ const Game = () => {
     }
   }
 
-  if (!loggedIn) {
+  /*if (!loggedIn) {
     return window.location.assign("/login");
-  }
+  }*/
 
   return (
     <main>
