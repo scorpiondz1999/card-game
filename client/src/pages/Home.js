@@ -11,6 +11,8 @@ import {
   Box,
 } from "@chakra-ui/react";
 
+import { Link } from "react-router-dom";
+
 import img from "../assets/img/home.jpg";
 
 const GameHome = () => {
@@ -33,9 +35,12 @@ const GameHome = () => {
           </Text>
         </Heading>
         <Text color={"gray.500"} maxW={"3xl"}>
-        Go Fish or Fish is a card game usually played by two to five players, although it can be played with up to 10 players. It can be played in about 5 to 15 minutes.
+          Go Fish or Fish is a card game usually played by two to five players,
+          although it can be played with up to 10 players. It can be played in
+          about 5 to 15 minutes.
         </Text>
         <Stack spacing={6} direction={"row"}>
+        <Link to="/game">
           <Button
             rounded={"full"}
             px={6}
@@ -43,11 +48,14 @@ const GameHome = () => {
             bg={"orange.400"}
             _hover={{ bg: "orange.500" }}
           >
-            <a href="/game">Start Game</a>
+            Start Game
           </Button>
+          </Link>
+          <Link to="/instructions">
           <Button rounded={"full"} px={6}>
-            <a href="/instructions">See Instructions</a>
+           See Instructions
           </Button>
+          </Link>
         </Stack>
         <Flex w={"full"}>
           <Box>

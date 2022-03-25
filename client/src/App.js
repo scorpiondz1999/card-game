@@ -7,7 +7,6 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-import { ChakraProvider } from "@chakra-ui/react";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -41,7 +40,6 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
-        <ChakraProvider>
           <div>
             <Header />
             <div>
@@ -55,7 +53,6 @@ function App() {
             </div>
             <Footer />
           </div>
-        </ChakraProvider>
       </Router>
     </ApolloProvider>
   );
