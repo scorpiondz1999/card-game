@@ -40,4 +40,10 @@ License
 MIT License
 
 
+LINKS :
+
+HEROKU : https://go-fish-game.herokuapp.com/
+
+GITHUB : https://github.com/scorpiondz1999/card-game
+
 
