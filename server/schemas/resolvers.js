@@ -5,13 +5,9 @@ const { startGame } = require("../controllers/game-controller");
 
 const resolvers = {
   Query: {
-    me: async (parent, args, context) => {
-      if (context.user) {
-        const userData = await User.findOne({ _id: context.user._id });
-
-        return userData;
-      }
-      throw new AuthenticationError("Not logged in");
+    getgames: async (parent, args) => {
+      const games = await Scores.find({}).sort({ scorePlayer: -1 });
+      return games;
     },
   },
   Mutation: {
@@ -67,11 +63,6 @@ const resolvers = {
         console.log(err);
         //return res.status(400).json(err);
       }
-    },
-    removeCards: async (parent, args) => {
-      if (context.user) {
-      }
-      throw new AuthenticationError("need to be logged in!");
     },
   },
 };

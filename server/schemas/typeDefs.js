@@ -13,15 +13,6 @@ const typeDefs = gql`
     user: User
   }
 
-  type Suits {
-    suit: String
-    type_card: String
-  }
-
-  type Values {
-    value: String
-  }
-
   type Player {
     suit: String
     type_card: String
@@ -51,9 +42,15 @@ const typeDefs = gql`
 
   type Score {
     idSession: String
+    username: String
+    scorePlayer: String
+    scoreComputer: String
+    setsNumber: String
+    timeGame: String
   }
+  
   type Query {
-    me(_id: ID): User
+    getgames: [Score]
   }
 
   type getDeck {
@@ -69,13 +66,12 @@ const typeDefs = gql`
     signup(username: String!, email: String!, password: String!): Auth
     savegame(
       idSession: String!
-      username: String!
-      scorePlayer: String!
-      scoreComputer: String!
-      setsNumber: String!
-      timeGame: String!
+      username: String
+      scorePlayer: String
+      scoreComputer: String
+      setsNumber: String
+      timeGame: String
     ): Score
-    removeCards(type_player: String!): Cards
   }
 `;
 
