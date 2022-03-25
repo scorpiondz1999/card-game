@@ -3,7 +3,6 @@ import {
   Box,
   chakra,
   Container,
-  Link,
   Stack,
   Text,
   useColorModeValue,
@@ -13,6 +12,8 @@ import {
 import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 
 import logo from "../../assets/logo192.png";
+
+import { Link } from "react-router-dom";
 
 const Logo = () => {
   return <Image src={logo} htmlHeight={25} htmlWidth={100} />;
@@ -58,8 +59,8 @@ function Footer() {
       >
         <Logo />
         <Stack direction={"row"} spacing={12}>
-          <Link href={"/"}>Home</Link>
-          <Link href={"/instructions"}>Instructions</Link>
+          <Link to={"/"}>Home</Link>
+          <Link to={"/instructions"}>Instructions</Link>
         </Stack>
       </Container>
 
