@@ -16,7 +16,6 @@ import React, { useState, useEffect, useRef } from "react";
 import defaultCard from "../assets/default-card.png";
 import gameCard from "../assets/white-card.png";
 import Auth from "../utils/auth";
-import { startNewGame } from "../components/Game";
 import { useQuery } from "@apollo/client";
 import { GET_CARDS } from "../utils/queries";
 
@@ -70,7 +69,7 @@ const Game = () => {
   async function StartGame() {
     setStart(true);
     setStop(false);
-    const data = await startNewGame();
+    /*const data =[];
     console.log(data);
     playerCards = data.p1Cards;
     computerCards = data.compCards;
@@ -78,7 +77,7 @@ const Game = () => {
     setRemainingDeck(data.deck.length);
     setStateGame("play");
     getTime(Date.now());
-    gameBegin();
+    gameBegin();*/
   }
 
   const replayGame = () => {
