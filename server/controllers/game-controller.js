@@ -1,5 +1,5 @@
 // Import models
-const { Suits, Values, Cards } = require("../models");
+const { Suits, Values, Cards, Scores } = require("../models");
 let player1cards = [],
   computercards = [];
 
@@ -66,7 +66,7 @@ async function cardAssign(deck) {
 }
 
 module.exports = {
-  async startGame() {
+  async startGame(data) {
     console.log("start game");
     // Re-initialize the cards
     const cards = await Cards.deleteMany({});
@@ -111,11 +111,25 @@ module.exports = {
       });
     });
 
+    const session = {
+      idSession: sessionid,
+      username: "null",
+      scorePlayer: "0",
+      scoreComputer: "0",
+      timeGame: "0",
+    };
+
+    Scores.create(session);
     Cards.create(p1Cards);
     Cards.create(compCards);
 
     // Response
-    return { p1Cards, compCards, deck };
+    return {
+      session: sessionid,
+      deck: deck,
+      player: p1Cards,
+      computer: compCards,
+    };
   },
   async getCards({ body }, res) {},
 };

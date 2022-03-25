@@ -49,14 +49,32 @@ const typeDefs = gql`
     deck: Deck
   }
 
+  type Score {
+    idSession: String
+  }
   type Query {
-    player: [Cards]
+    me(_id: ID): User
+  }
+
+  type getDeck {
+    session: String
+    deck: [Deck]
+    player: [Player]
+    computer: [Computer]
   }
 
   type Mutation {
+    deck(deck: String): getDeck
     login(email: String!, password: String!): Auth
     signup(username: String!, email: String!, password: String!): Auth
-    saveCards(suit: String!, value: String!, type_player: String!): Cards
+    savegame(
+      idSession: String!
+      username: String!
+      scorePlayer: String!
+      scoreComputer: String!
+      setsNumber: String!
+      timeGame: String!
+    ): Score
     removeCards(type_player: String!): Cards
   }
 `;
