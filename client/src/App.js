@@ -16,6 +16,7 @@ import Game from "./pages/Game";
 import Instructions from "./pages/Instructions";
 import Login from "./pages/Login";
 import SignUp from "./pages/Signup";
+import Score from "./pages/Score";
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -46,6 +47,7 @@ function App() {
               <Switch>
                 <Route exact path="/" component={Home} />
                 <Route exact path="/game" component={Game} />
+                <Route exact path="/scores" component={Score} />
                 <Route exact path="/instructions" component={Instructions} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/signup" component={SignUp} />

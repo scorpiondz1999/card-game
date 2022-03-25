@@ -36,6 +36,10 @@ const Login = (props) => {
       password: formState.password,
     },
     onCompleted: ({ login }) => {
+      if (props.redirect === false) {
+        localStorage.setItem("id_token", login.token);
+        return props.handleClose();
+      }
       Auth.login(login.token);
       setFormState({
         email: "",

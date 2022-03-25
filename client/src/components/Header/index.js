@@ -284,6 +284,14 @@ const NAV_ITEMS = [
     label: "Instructions",
     href: "/instructions",
   },
+  {
+    label: "Scores",
+    href: "/scores",
+  },
+  {
+    label: "Games",
+    href: "/game",
+  },
 ];
 
 export default Header;

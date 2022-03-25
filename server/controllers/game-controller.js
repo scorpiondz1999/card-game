@@ -111,6 +111,8 @@ module.exports = {
       });
     });
 
+    // Create session
+    const sessionid = Date.now();
     const session = {
       idSession: sessionid,
       username: "null",
@@ -120,6 +122,7 @@ module.exports = {
     };
 
     Scores.create(session);
+    
     Cards.create(p1Cards);
     Cards.create(compCards);
 

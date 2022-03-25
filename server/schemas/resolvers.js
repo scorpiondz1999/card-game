@@ -6,7 +6,9 @@ const { startGame } = require("../controllers/game-controller");
 const resolvers = {
   Query: {
     getgames: async (parent, args) => {
-      const games = await Scores.find({}).sort({ scorePlayer: -1 });
+      const games = await Scores.find({ username: { $ne: "null" } }).sort({
+        scorePlayer: -1,
+      });
       return games;
     },
   },

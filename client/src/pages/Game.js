@@ -11,13 +11,30 @@ import {
   Divider,
   Tag,
   TagLabel,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
 } from "@chakra-ui/react";
 import React, { useState, useEffect, useRef } from "react";
+import { useMutation } from "@apollo/client";
 import defaultCard from "../assets/default-card.png";
 import gameCard from "../assets/white-card.png";
 import Auth from "../utils/auth";
-import { useQuery } from "@apollo/client";
+
+import Login from "./Login";
+
 import { GET_CARDS } from "../utils/queries";
+import {
+  CREATEGAME_MUTATION,
+  CREATECARDSPLAYERS_MUTATION,
+  SAVEGAME_MUTATION,
+} from "../utils/mutations";
+
+import decode from "jwt-decode";
 
 const tabCardDefault = [
   "dafaultCard",
@@ -47,38 +64,81 @@ const Game = () => {
   const [stop, setStop] = useState(true);
   const [turn, setTurn] = useState(true); // Player Turn => turn = true; Computer Turn => turn = false
   const [messageGame, setMessageGame] = useState("");
+  const [isOpen, setOpen] = useState(false);
 
   const [height, setHeight] = useState(0);
   const ref = useRef(null);
 
-  //const { loading, error, data } = useQuery(GET_CARDS);
+  const [createGame, { error1 }] = useMutation(CREATEGAME_MUTATION);
+  const [getCards, { error2 }] = useMutation(CREATECARDSPLAYERS_MUTATION);
+  const [saveGame, { error3 }] = useMutation(SAVEGAME_MUTATION);
 
   useEffect(() => {
     setHeight(ref.current.clientHeight);
   });
 
-  const loggedIn = Auth.loggedIn();
-
-  const token = Auth.getToken();
-
-  const takeTurn = () => {
-    setTurn(true);
-    setMessageGame("Player's Turn");
+  const handleClose = () => {
+    setOpen(false);
   };
 
-  async function StartGame() {
+  const loggedIn = Auth.loggedIn();
+
+  const saveScore = async () => {
+    if (!loggedIn) {
+      alert("You must signin to save the game !");
+      setOpen(true);
+      return false;
+    }
+
+    const sessionid = localStorage.getItem("id_session");
+    const token = Auth.getToken();
+    const user = decode(token);
+    try {
+      const res = await saveGame({
+        variables: {
+          idSession: sessionid,
+          username: user.data.username,
+          scorePlayer: scorePlayer.toString(),
+          scoreComputer: scoreComputer.toString(),
+          setsNumber: setsNumber.toString(),
+          timeGame: dateStart.toString(),
+        },
+      });
+      if (!res) {
+        throw new Error("something went wrong!");
+      }
+      setMessageGame("Game successufully saved");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const StartGame = async () => {
     setStart(true);
     setStop(false);
-    /*const data =[];
-    console.log(data);
-    playerCards = data.p1Cards;
-    computerCards = data.compCards;
-    deck = data.deck;
-    setRemainingDeck(data.deck.length);
-    setStateGame("play");
-    getTime(Date.now());
-    gameBegin();*/
-  }
+    try {
+      const res = await createGame({ variables: { data: "" } });
+      if (!res) {
+        throw new Error("something went wrong!");
+      }
+
+      const data = res.data.deck;
+
+      localStorage.removeItem("id_session");
+      localStorage.setItem("id_session", data.session);
+
+      deck = data.deck;
+      playerCards = data.player;
+      computerCards = data.computer;
+
+      setRemainingDeck(deck.length);
+      setStateGame("play");
+      getTime(Date.now());
+      gameBegin();
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const replayGame = () => {
     setStateGame("play");
@@ -308,10 +368,6 @@ const Game = () => {
     }
   }
 
-  /*if (!loggedIn) {
-    return window.location.assign("/login");
-  }*/
-
   return (
     <main>
       <Flex align="center" justify="center">
@@ -485,7 +541,7 @@ const Game = () => {
               >
                 <Text fontSize="md" marginBottom={2} color="blueviolet">
                   {stateGame === "init"
-                    ? "Clic on Start to Begin a new game"
+                    ? "Click on Start to Begin a new game"
                     : messageGame}
                 </Text>
                 <Divider />
@@ -507,11 +563,11 @@ const Game = () => {
                   <Button
                     colorScheme="orange"
                     variant="solid"
-                    onClick={() => takeTurn()}
+                    onClick={() => saveScore()}
                     style={{ cursor: "progress" }}
-                    disabled={start === false || stop === true ? true : false}
+                    disabled={stop === false || dateStart === 0 ? true : false}
                   >
-                    Take Turn
+                    Save Score
                   </Button>
                 </Stack>
               </GridItem>
@@ -603,6 +659,19 @@ const Game = () => {
           </GridItem>
         </Grid>
       </Flex>
+      <Modal isOpen={isOpen}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Sign In</ModalHeader>
+          <ModalBody></ModalBody>
+          <Login redirect={false} handleClose={() => handleClose()} />
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={() => handleClose()}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </main>
   );
 };

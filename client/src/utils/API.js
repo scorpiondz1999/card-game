@@ -4,7 +4,7 @@ export const createUser = (userData) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      'Accept': 'application/json'
+      Accept: "application/json",
     },
     body: JSON.stringify(userData),
   });
@@ -15,19 +15,20 @@ export const loginUser = (userData) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      'Accept': 'application/json'
+      Accept: "application/json",
     },
     body: JSON.stringify(userData),
   });
 };
 
-export const startNewGame = async (token) => {
+export const startNewGame = async () => {
   return await fetch("http://localhost:3001/api/game/startgame", {
-    headers : { 
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-     }
-  }).then((response) => {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  })
+    .then((response) => {
       if (response.status >= 400) {
         throw new Error("Bad response from server");
       }
